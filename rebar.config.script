@@ -10,7 +10,7 @@ IsRebar3OrMix = case application:get_env(rebar, vsn) of
 
 GitDeps =
     [ {base64url, ".*", {git, "https://github.com/dvv/base64url", {tag, "v1.0"}}}
-    , {jsx, ".*", {git, "https://github.com/talentdeficit/jsx", {tag, "2.8.0"}}}
+    , {jiffy, ".*", {git, "https://github.com/davisp/jiffy, {tag, "0.14.8"}}}
     ],
 
 case IsRebar3OrMix of

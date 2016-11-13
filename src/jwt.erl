@@ -6,7 +6,7 @@
 
 -module(jwt).
 
--export([decode/2]).
+-export([decode/2, decode/3]).
 -export([encode/3, encode/4]).
 
 -define(HOUR, 3600).
@@ -51,6 +51,30 @@ decode(Token, Key) ->
             end;
         _ -> {error, invalid_token}
     end.
+
+% When there are multiple issuers and keys are on a per issuer bases
+% then apply those keys instead
+decode(Token, DefaultKey, IssuerKeyMapping) ->
+    case split_token(Token) of
+        SplitToken = [Header, Claims | _] ->
+            case decode_jwt(SplitToken) of
+                {#{<<"typ">> := Type, <<"alg">> := Alg} = _Header, ClaimsJSON, Signature} ->
+                    Issuer = maps:get(<<"iss">>, ClaimsJSON, undefined),
+                    Key = maps:get(Issuer, IssuerKeyMapping, DefaultKey),
+                    case jwt_check_sig(Type, Alg, Header, Claims, Signature, Key) of
+                        false -> {error, invalid_signature};
+                        true ->
+                            case jwt_is_expired(ClaimsJSON) of
+                                true  -> {error, expired};
+                                false -> {ok, ClaimsJSON}
+                            end
+                    end;
+                invalid -> {error, invalid_token}
+            end;
+        _ -> {error, invalid_token}
+    end.
+
+
 
 %%
 %% Decoding helpers

@@ -46,6 +46,26 @@ Or use it as git dependency.
 
 %% Parse JWT token
 > {ok, Claims} = jwt:decode(Token, Key).
+
+
+
+%% Issuer specific keys workflow
+
+%% The encoder just knows about itself
+> Issuer = <<"iss1">>.
+> IssuerKey = <<"Issuer-1-Key">>.
+> Claims2 = [
+    {iss, Issuer},
+    {user_id, 42},
+    {user_name, <<"Bob">>}
+  ].
+> {ok, Token2} = jwt:encode(<<"HS256">>, Claims, ExpirationSeconds, IssuerKey).
+
+%% Decoder Workflow
+%% The decoder knows about all encoder keys (issuer specific)
+> IssuerKeyMapping = #{ Issuer => IssuerKey,
+                        <<"iss2">> => <<"Issuer2Key">>}.
+> {ok, Claims} = jwt:decode(Token, <<"default-key">>, IssuerKeyMapping).
 ```
 
 ---

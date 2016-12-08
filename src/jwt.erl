@@ -17,8 +17,8 @@
 %%
 
 encode(Alg, ClaimsSet, Key) ->
-    Claims = base64url:encode(jsx:encode(ClaimsSet)),
-    Header = base64url:encode(jsx:encode(jwt_header(Alg))),
+    Claims = base64url:encode(jiffy:encode({ClaimsSet})),
+    Header = base64url:encode(jiffy:encode({jwt_header(Alg)})),
     Payload = <<Header/binary, ".", Claims/binary>>,
     case jwt_sign(Alg, Payload, Key) of
         undefined -> {error, algorithm_not_supported};
@@ -26,8 +26,8 @@ encode(Alg, ClaimsSet, Key) ->
     end.
 
 encode(Alg, ClaimsSet, Expiration, Key) ->
-    Claims = base64url:encode(jsx:encode(jwt_add_exp(ClaimsSet, Expiration))),
-    Header = base64url:encode(jsx:encode(jwt_header(Alg))),
+    Claims = base64url:encode(jiffy:encode({jwt_add_exp(ClaimsSet, Expiration)})),
+    Header = base64url:encode(jiffy:encode({jwt_header(Alg)})),
     Payload = <<Header/binary, ".", Claims/binary>>,
     case jwt_sign(Alg, Payload, Key) of
         undefined -> {error, algorithm_not_supported};
@@ -80,9 +80,9 @@ decode(Token, DefaultKey, IssuerKeyMapping) ->
 %% Decoding helpers
 %%
 
-jsx_decode_safe(Bin) ->
+jiffy_decode_safe(Bin) ->
     try
-        jsx:decode(Bin, [return_maps])
+        jiffy:decode(Bin, [return_maps])
     catch _ ->
         invalid
     end.
@@ -107,7 +107,7 @@ split_token(Token) ->
 decode_jwt([Header, Claims, Signature]) ->
     try
         [HeaderJSON, ClaimsJSON] =
-            Decoded = [jsx_decode_safe(base64url:decode(X)) || X <- [Header, Claims]],
+            Decoded = [jiffy_decode_safe(base64url:decode(X)) || X <- [Header, Claims]],
         case lists:any(fun(E) -> E =:= invalid end, Decoded) of
             true  -> invalid;
             false -> {HeaderJSON, ClaimsJSON, Signature}

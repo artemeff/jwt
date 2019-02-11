@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.3">
+    <title>jwt — Erlang JWT Library — JWT v0.1.8</title>
+    <link rel="stylesheet" href="dist/html-17f11fce3c17ca7c2e4e.css" />
+    <script src="dist/sidebar_items-5d2198729c.js"></script>
+      <script src="config.js"></script>
+    <script async src="dist/html-17f11fce3c17ca7c2e4e.js"></script>
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" title="Toggle night/day mode"></span>
+</button>
+<section class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://github.com/artemeff/jwt" class="sidebar-projectName">
+JWT      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.8
+      </h2>
+    </div>
+  </div>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>jwt — Erlang JWT Library</h1>
+<hr class="thin"/>
+<p><a href="https://travis-ci.org/artemeff/jwt"><img src="https://travis-ci.org/artemeff/jwt.svg?branch=master" alt="Build Status"/>
+</a>
+<a href="https://coveralls.io/github/artemeff/jwt?branch=master"><img src="https://coveralls.io/repos/github/artemeff/jwt/badge.svg?branch=master" alt="Coverage Status"/>
+</a>
+<a href="https://hex.pm/packages/jwt"><img src="https://img.shields.io/hexpm/v/jwt.svg" alt="Hex.pm"/>
+</a></p>
+<hr class="thin"/>
+<p>JWT is a simple authorization token <a href="https://jwt.io/">format</a> based on JSON.</p>
+<h4><a name="Installation">Installation</a></h4>
+<p>If you use rebar (supports both 2 and 3 versions) or mix (Elixir):</p>
+<pre><code class="erlang">
+% in rebar.config for rebar3
+{deps, [{jwt}]}.
+
+% or for rebar2
+{deps, [{jwt, &quot;.*&quot;, {git, &quot;https://github.com/artemeff/jwt&quot;, {tag, &quot;0.1.0&quot;}}}]}
+</code></pre>
+<pre><code class="nohighlight makeup elixir"><span class="w">
+</span><span class="p">%</span><span class="w"> </span><span class="n">mix</span><span class="o">.</span><span class="n">exs</span><span class="w">
+</span><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="9579539693-1">do</span><span class="w">
+  </span><span class="p" data-group-id="9579539693-2">[</span><span class="p" data-group-id="9579539693-3">{</span><span class="ss">:jwt</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1&quot;</span><span class="p" data-group-id="9579539693-3">}</span><span class="p" data-group-id="9579539693-2">]</span><span class="w">
+</span><span class="k" data-group-id="9579539693-1">end</span><span class="w">
+</span></code></pre>
+<p>Or use it as git dependency.</p>
+<h4><a name="Usage_example">Usage example</a></h4>
+<pre><code class="erlang">
+%% Create JWT token
+&gt; application:ensure_all_started(jwt).
+&gt; Key = &lt;&lt;&quot;supas3cri7&quot;&gt;&gt;.
+&gt; Claims = [
+    {user_id, 42},
+    {user_name, &lt;&lt;&quot;Bob&quot;&gt;&gt;}
+  ].
+&gt; {ok, Token} = jwt:encode(&lt;&lt;&quot;HS256&quot;&gt;&gt;, Claims, Key).
+%% or with expiration
+&gt; ExpirationSeconds = 86400.
+&gt; {ok, Token} = jwt:encode(&lt;&lt;&quot;HS256&quot;&gt;&gt;, Claims, ExpirationSeconds, Key).
+
+%% Parse JWT token
+&gt; {ok, Claims} = jwt:decode(Token, Key).
+%% Issuer specific keys workflow
+
+%% The encoder just knows about itself
+&gt; Issuer = &lt;&lt;&quot;iss1&quot;&gt;&gt;.
+&gt; IssuerKey = &lt;&lt;&quot;Issuer-1-Key&quot;&gt;&gt;.
+&gt; Claims2 = [
+    {iss, Issuer},
+    {user_id, 42},
+    {user_name, &lt;&lt;&quot;Bob&quot;&gt;&gt;}
+  ].
+&gt; {ok, Token2} = jwt:encode(&lt;&lt;&quot;HS256&quot;&gt;&gt;, Claims, ExpirationSeconds, IssuerKey).
+
+%% Decoder Workflow
+%% The decoder knows about all encoder keys (issuer specific)
+&gt; IssuerKeyMapping = #{ Issuer =&gt; IssuerKey,
+                        &lt;&lt;&quot;iss2&quot;&gt;&gt; =&gt; &lt;&lt;&quot;Issuer2Key&quot;&gt;&gt;}.
+&gt; {ok, Claims} = jwt:decode(Token, &lt;&lt;&quot;default-key&quot;&gt;&gt;, IssuerKeyMapping).
+</code></pre>
+<hr class="thin"/>
+<h3 id="contributing" class="section-heading">
+  <a href="#contributing" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  <a name="Contributing">Contributing</a>
+</h3>
+
+<ul>
+<li>Fork it
+</li>
+<li>Create your feature branch (<code class="inline">git checkout -b my-new-feature</code>)
+</li>
+<li>Commit your changes (<code class="inline">git commit -am &#39;add some feature&#39;</code>)
+</li>
+<li>Push to the branch (<code class="inline">git push origin my-new-feature</code>)
+</li>
+<li>Create new Pull Request
+</li>
+</ul>
+<h2 id="modules" class="section-heading">
+  <a href="#modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Modules
+</h2>
+
+<table width="100%" border="0" summary="list of modules">
+<tr><td><a href="http://github.com/artemeff/jwt/blob/master/doc/jwk.md" class="module">jwk</a></td></tr>
+<tr><td><a href="http://github.com/artemeff/jwt/blob/master/doc/jwt.md" class="module">jwt</a></td></tr>
+<tr><td><a href="http://github.com/artemeff/jwt/blob/master/doc/jwt_ecdsa.md" class="module">jwt_ecdsa</a></td></tr></table>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  
+  </body>
+</html>
+

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.3">
+    <title>jwt — JWT v0.1.8</title>
+    <link rel="stylesheet" href="dist/html-17f11fce3c17ca7c2e4e.css" />
+    <script src="dist/sidebar_items-5d2198729c.js"></script>
+      <script src="config.js"></script>
+    <script async src="dist/html-17f11fce3c17ca7c2e4e.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" title="Toggle night/day mode"></span>
+</button>
+<section class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://github.com/artemeff/jwt" class="sidebar-projectName">
+JWT      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.8
+      </h2>
+    </div>
+  </div>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">JWT v0.1.8</small>
+jwt        
+          <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L8" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>JWT Library for Erlang.</p>
+<p>Written by Peter Hizalev at Kato (http://kato.im)</p>
+<p>Rewritten by Yuri Artemev (http://artemff.com)</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#algorithm_to_crypto/1">algorithm_to_crypto(_)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#append_claim/3">append_claim(ClaimsSet, Key, Val)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decode/2">decode(Token, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decode/3">decode(Token, DefaultKey, IssuerKeyMapping)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#decode_jwt/1">decode_jwt(Context)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode/3">encode(Alg, ClaimsSet, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#encode/4">encode(Alg, ClaimsSet, Expiration, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#epoch/0">epoch()</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#expiration_to_epoch/1">expiration_to_epoch(Expiration)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#expiration_to_epoch/2">expiration_to_epoch(Expiration, Ts)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jsx_decode_safe/1">jsx_decode_safe(Bin)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_add_exp/2">jwt_add_exp(ClaimsSet, Expiration)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_check_sig/4">jwt_check_sig(Alg, Payload, Signature, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_check_sig/5">jwt_check_sig(Alg, Header, Claims, Signature, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_header/1">jwt_header(Alg)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_is_expired/1">jwt_is_expired(ClaimsJSON)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_sign/3">jwt_sign(Alg, Payload, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#jwt_sign_with_crypto/3">jwt_sign_with_crypto(_, Payload, Key)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#pem_to_key/1">pem_to_key(Pem)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#result/1">result(Error)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#run/2">run(Acc, Funs)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#split_token/1">split_token(Context)</a>
+  </div>
+    <div class="summary-synopsis"></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="algorithm_to_crypto/1">
+    <div class="detail-header">
+    <a href="#algorithm_to_crypto/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">algorithm_to_crypto(_)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L291" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>algorithm_to_crypto(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()} | :undefined</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="append_claim/3">
+    <div class="detail-header">
+    <a href="#append_claim/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">append_claim(ClaimsSet, Key, Val)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L316" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>append_claim(claimsSet :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="decode/2">
+    <div class="detail-header">
+    <a href="#decode/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">decode(Token, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L85" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>decode(
+  token :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  key :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-public_key">:public_key.public_key</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>()
+) :: {:ok, claims :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Decodes a token, checks the signature and returns the content of the token</p>
+<ul>
+<li><code class="inline">Token</code> is a JWT itself
+</li>
+<li><code class="inline">Key</code> is a secret phrase or public/private key depend on encryption algorithm
+</li>
+</ul>
+  </section>
+</section>
+<section class="detail" id="decode/3">
+    <div class="detail-header">
+    <a href="#decode/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">decode(Token, DefaultKey, IssuerKeyMapping)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L100" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>decode(
+  token :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  defaultKey :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-public_key">:public_key.public_key</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>(),
+  issuerKeyMapping :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()
+) :: {:ok, claims :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Decode with an issuer key mapping</p>
+<p>Receives the issuer key mapping as the last parameter</p>
+  </section>
+</section>
+<section class="detail" id="decode_jwt/1">
+    <div class="detail-header">
+    <a href="#decode_jwt/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">decode_jwt(Context)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L143" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>decode_jwt(context()) :: {true, context()} | {false, {:error, :invalid_token}}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="encode/3">
+    <div class="detail-header">
+    <a href="#encode/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">encode(Alg, ClaimsSet, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L43" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>encode(
+  alg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  claimsSet :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(),
+  key :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>()
+) :: {:ok, token :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a token from given data and signs it with a given secret</p>
+<p>Parameters are*</p>
+<p><code class="inline">Alg</code> is a binary one of</p>
+<p>[HS256, HS384, HS512, RS256, RS384, RS512, ES256, ES384, ES512, PS256, PS384, PS512]</p>
+<p>But only [HS256, HS384, HS512, RS256] are supported</p>
+<ul>
+<li><code class="inline">ClaimsSet</code> the payload of the token. Can be both map and proplist
+</li>
+<li><code class="inline">Key</code> binary in case of hmac encryption and private key if rsa
+</li>
+</ul>
+  </section>
+</section>
+<section class="detail" id="encode/4">
+    <div class="detail-header">
+    <a href="#encode/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">encode(Alg, ClaimsSet, Expiration, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L69" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>encode(
+  alg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  claimsSet :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(),
+  expiration :: expiration(),
+  key :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>()
+) :: {:ok, token :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a token from given data and signs it with a given secret</p>
+<p>and also adds <code class="inline">exp</code> claim to payload</p>
+<p><code class="inline">Expiration</code> can be one of the tuples:<code class="inline">{hourly, SecondsAfterBeginningOfCurrentHour}</code>,<code class="inline">{daily, SecondsAfterBeginningOfCurrentDay}</code>
+  or can be just an integer representing the amount of seconds
+  the token will live</p>
+  </section>
+</section>
+<section class="detail" id="epoch/0">
+    <div class="detail-header">
+    <a href="#epoch/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">epoch()</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L300" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>epoch() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="expiration_to_epoch/1">
+    <div class="detail-header">
+    <a href="#expiration_to_epoch/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">expiration_to_epoch(Expiration)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L304" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>expiration_to_epoch(expiration :: expiration()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">neg_integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="expiration_to_epoch/2">
+    <div class="detail-header">
+    <a href="#expiration_to_epoch/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">expiration_to_epoch(Expiration, Ts)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L307" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jsx_decode_safe/1">
+    <div class="detail-header">
+    <a href="#jsx_decode_safe/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jsx_decode_safe(Bin)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L195" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jsx_decode_safe(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | :invalid</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_add_exp/2">
+    <div class="detail-header">
+    <a href="#jwt_add_exp/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_add_exp(ClaimsSet, Expiration)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L251" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jwt_add_exp(claimsSet :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), expiration :: expiration()) ::
+  <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_check_sig/4">
+    <div class="detail-header">
+    <a href="#jwt_check_sig/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_check_sig(Alg, Payload, Signature, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L230" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jwt_check_sig(
+  {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()},
+  payload :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  signature :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  key :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-public_key">:public_key.public_key</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>()
+) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_check_sig/5">
+    <div class="detail-header">
+    <a href="#jwt_check_sig/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_check_sig(Alg, Header, Claims, Signature, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L220" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jwt_check_sig(
+  alg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  header :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  claims :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  signature :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  key :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-public_key">:public_key.public_key</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>()
+) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_header/1">
+    <div class="detail-header">
+    <a href="#jwt_header/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_header(Alg)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L256" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jwt_header(alg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_is_expired/1">
+    <div class="detail-header">
+    <a href="#jwt_is_expired/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_is_expired(ClaimsJSON)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L204" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jwt_is_expired(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_sign/3">
+    <div class="detail-header">
+    <a href="#jwt_sign/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_sign(Alg, Payload, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L270" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>jwt_sign(
+  alg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  payload :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(),
+  key :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | <a href="http://www.erlang.org/doc/man/public_key.html#type-private_key">:public_key.private_key</a>()
+) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>() | :undefined</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="jwt_sign_with_crypto/3">
+    <div class="detail-header">
+    <a href="#jwt_sign_with_crypto/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">jwt_sign_with_crypto(_, Payload, Key)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L273" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="pem_to_key/1">
+    <div class="detail-header">
+    <a href="#pem_to_key/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">pem_to_key(Pem)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L320" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="result/1">
+    <div class="detail-header">
+    <a href="#result/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">result(Error)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L111" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="run/2">
+    <div class="detail-header">
+    <a href="#run/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">run(Acc, Funs)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L116" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="split_token/1">
+    <div class="detail-header">
+    <a href="#split_token/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">split_token(Context)</span>
+      <a href="https://github.com/artemeff/jwt/blob/master/src/jwt.erl#L129" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>split_token(context :: context()) ::
+  {true, context()} | {false, {:error, :invalid_token}}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.3),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  
+  </body>
+</html>
+

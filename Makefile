@@ -1,4 +1,4 @@
-.PHONY: all compile test lint doc edown clean
+.PHONY: all compile test lint doc edown ex_doc clean eep48
 
 all: compile
 
@@ -24,3 +24,9 @@ clean:
 run:
 	rebar3 shell --name jwt
 
+ex_doc: eep48
+	mix deps.get
+	mix docs
+
+eep48:
+	rebar3 eep48

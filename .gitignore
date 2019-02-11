@@ -10,3 +10,4 @@ doc/edoc-info
 doc/*.png
 doc/*.css
 doc/*.html
+deps/

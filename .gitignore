@@ -6,8 +6,10 @@ _build
 *.sublime-*
 erl_crash.dump
 rebar3.crashdump
-doc/edoc-info
-doc/*.png
-doc/*.css
-doc/*.html
+edoc/edoc-info
+edoc/*.png
+edoc/*.css
+edoc/*.html
 deps/
+mix.exs
+mix.lock

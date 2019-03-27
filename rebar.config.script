@@ -21,7 +21,7 @@ end,
 ConfigCI = case os:getenv("CI") of
     "true" ->
         Plugins = [rebar3_lint | proplists:get_value(plugins, Config, [])],
-        lists:keyreplace(plugins, 1, Config, {plugins, Plugins});
+        lists:keystore(plugins, 1, Config, {plugins, Plugins});
     _ ->
         Config
 end,

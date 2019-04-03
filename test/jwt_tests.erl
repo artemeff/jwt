@@ -1,5 +1,6 @@
 -module(jwt_tests).
 -include_lib("eunit/include/eunit.hrl").
+-include_lib("public_key/include/public_key.hrl").
 
 -define(SECRET, <<"supas3cri7">>).
 
@@ -193,6 +194,10 @@ expired_token_test_() ->
     [?_assertEqual({error, expired}, jwt:decode(ExpiredToken, ?SECRET)),
     ?_assertMatch({ok, #{<<"exp">> := _Exp }}, jwt:decode(UnexpiredToken, ?SECRET))].
 
+pem_to_key_test() ->
+    Pem = ecdsa_private_with_params(),
+    Key = jwt:pem_to_key(Pem),
+    ?assert(is_record(Key, 'ECPrivateKey')).
 
 %%
 %% Helpers
@@ -209,6 +214,9 @@ rsa_secret() ->
 
 ecdsa_private_key() ->
     from_pem_file("./test/pem/ecdsa_private.pem").
+
+ecdsa_private_with_params() ->
+    from_pem_file("./test/pem/ecdsa_private_with_params.pem").
 
 ecdsa_public_key() ->
     from_pem_file("./test/pem/ecdsa_public.pem").

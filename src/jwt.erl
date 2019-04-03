@@ -318,5 +318,10 @@ append_claim(ClaimsSet, Key, Val) when is_map(ClaimsSet) ->
 append_claim(ClaimsSet, Key, Val) -> [{ Key, Val } | ClaimsSet].
 
 pem_to_key(Pem) ->
-    [Decoded] = public_key:pem_decode(Pem),
+    Decoded = case public_key:pem_decode(Pem) of
+        [_, Key] ->
+            Key;
+        [Key] ->
+            Key
+    end,
     public_key:pem_entry_decode(Decoded).

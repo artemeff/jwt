@@ -98,7 +98,7 @@ decode(Token, Key) ->
 %%
 %% @end
 decode(Token, DefaultKey, IssuerKeyMapping) ->
-    result(run(#{token => Token}, [
+    result(reduce_while(fun(F, Acc) -> apply(F, [Acc]) end, #{token => Token}, [
         fun split_token/1,
         fun decode_jwt/1,
         fun (Context) ->
@@ -113,32 +113,32 @@ result(#{claims_json := ClaimsJSON}) ->
 result({error, _} = Error) ->
     Error.
 
-run(Acc, []) ->
+reduce_while(_Fun, Acc, []) ->
     Acc;
-run(Acc, [F|Funs]) ->
-    case F(Acc) of
-        {true, NewAcc} ->
-            run(NewAcc, Funs);
-        {false, Result} ->
+reduce_while(Fun, Acc, [Item|Rest]) ->
+    case Fun(Item, Acc) of
+        {cont, NewAcc} ->
+            reduce_while(Fun, NewAcc, Rest);
+        {halt, Result} ->
             Result
     end.
 
 -spec split_token(Context :: context()) ->
-    {true, context()} | {false, {error, invalid_token}}.
+    {cont, context()} | {halt, {error, invalid_token}}.
 %% @private
 split_token(#{token := Token} = Context) ->
     case binary:split(Token, <<".">>, [global]) of
         [Header, Claims, Signature] ->
-            {true, maps:merge(Context, #{
+            {cont, maps:merge(Context, #{
                 header => Header,
                 claims => Claims,
                 signature => Signature
             })};
         _ ->
-            {false, {error, invalid_token}}
+            {halt, {error, invalid_token}}
     end.
 
--spec decode_jwt(context()) -> {true, context()} | {false, {error, invalid_token}}.
+-spec decode_jwt(context()) -> {cont, context()} | {halt, {error, invalid_token}}.
 %% @private
 decode_jwt(#{header := Header, claims := Claims} = Context) ->
     try
@@ -146,22 +146,22 @@ decode_jwt(#{header := Header, claims := Claims} = Context) ->
             Decoded = [jsx_decode_safe(base64url:decode(X)) || X <- [Header, Claims]],
         case lists:any(fun(E) -> E =:= invalid end, Decoded) of
             false ->
-                {true, maps:merge(Context, #{
+                {cont, maps:merge(Context, #{
                     header_json => HeaderJSON,
                     claims_json => ClaimsJSON
                 })};
             true  ->
-                {false, {error, invalid_token}}
+                {halt, {error, invalid_token}}
         end
     catch _:_ ->
-        {false, {error, invalid_token}}
+        {halt, {error, invalid_token}}
     end.
 
 %% @private
 get_key(#{claims_json := Claims} = Context, DefaultKey, IssuerKeyMapping) ->
     Issuer = maps:get(<<"iss">>, Claims, undefined),
     Key = maps:get(Issuer, IssuerKeyMapping, DefaultKey),
-    {true, maps:merge(Context, #{key => Key})}.
+    {cont, maps:merge(Context, #{key => Key})}.
 
 %% @private
 check_signature(#{
@@ -173,18 +173,18 @@ check_signature(#{
 } = Context) ->
     case jwt_check_sig(Alg, Header, Claims, Signature, Key) of
         true ->
-            {true, Context};
+            {cont, Context};
         false ->
-            {false, {error, invalid_signature}}
+            {halt, {error, invalid_signature}}
     end.
 
 %% @private
 check_expired(#{claims_json := ClaimsJSON} = Context) ->
     case jwt_is_expired(ClaimsJSON) of
         true  ->
-            {false, {error, expired}};
+            {halt, {error, expired}};
         false ->
-            {true, Context}
+            {cont, Context}
     end.
 
 %%
